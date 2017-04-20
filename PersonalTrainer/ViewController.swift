@@ -14,7 +14,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var stopButton: UIButton!
     
-    var vibrateTimer: Timer?
+    var stepTimer: Timer?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,20 +28,85 @@ class ViewController: UIViewController {
     }
 
     @IBAction func start(_ sender: UIButton) {
-        vibrateTimer = Timer.scheduledTimer(timeInterval: 3,
+        stepTimer = Timer.scheduledTimer(timeInterval: 3,
                                             target: self,
-                                            selector: #selector(ViewController.vibrate(_:)),
+                                            selector: #selector(ViewController.restEnd(_:)),
                                             userInfo: nil,
-                                            repeats: true)
+                                            repeats: false)
     }
 
     @IBAction func stop(_ sender: UIButton) {
-        vibrateTimer?.invalidate()
+        stepTimer?.invalidate()
     }
     
-    func vibrate(_ timer: Timer) {
-        print("vibrate")
+
+    
+    
+    func workBegin(_ timer: Timer) {
+        print("workBegin")
         AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        stepTimer = Timer.scheduledTimer(timeInterval: 15,
+                                        target: self,
+                                        selector: #selector(ViewController.work15(_:)),
+                                        userInfo: nil,
+                                        repeats: false)
     }
+
+    func work15(_ timer: Timer) {
+        print("work15")
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        stepTimer = Timer.scheduledTimer(timeInterval: 15,
+                                        target: self,
+                                        selector: #selector(ViewController.work30(_:)),
+                                        userInfo: nil,
+                                        repeats: false)
+    }
+    func work30(_ timer: Timer) {
+        print("work30")
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        stepTimer = Timer.scheduledTimer(timeInterval: 15,
+                                        target: self,
+                                        selector: #selector(ViewController.workEnd(_:)),
+                                        userInfo: nil,
+                                        repeats: false)
+    }
+    func workEnd(_ timer: Timer) {
+        print("workEnd")
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        stepTimer = Timer.scheduledTimer(timeInterval: 1,
+                                        target: self,
+                                        selector: #selector(ViewController.restBegin(_:)),
+                                        userInfo: nil,
+                                        repeats: false)
+    }
+    func restBegin(_ timer: Timer) {
+        print("restBegin")
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        stepTimer = Timer.scheduledTimer(timeInterval: 7,
+                                        target: self,
+                                        selector: #selector(ViewController.restHalf(_:)),
+                                        userInfo: nil,
+                                        repeats: false)
+    }
+    func restHalf(_ timer: Timer) {
+        print("restHalf")
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        stepTimer = Timer.scheduledTimer(timeInterval: 7,
+                                        target: self,
+                                        selector: #selector(ViewController.restEnd(_:)),
+                                        userInfo: nil,
+                                        repeats: false)
+    }
+    func restEnd(_ timer: Timer) {
+        print("restEnd")
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        stepTimer = Timer.scheduledTimer(timeInterval: 0.5,
+                                        target: self,
+                                        selector: #selector(ViewController.workBegin(_:)),
+                                        userInfo: nil,
+                                        repeats: false)
+    }
+
+
 }
 
