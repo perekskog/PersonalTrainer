@@ -17,11 +17,14 @@ class ViewController: UIViewController {
     @IBOutlet weak var timeLabel: UILabel!
     
     var stepTimer: Timer?
+    var timeLabelTimer: Timer?
+    var timeLabelValue = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         statusLabel.text = ""
+        timeLabel.text = ""
 
     }
 
@@ -35,8 +38,10 @@ class ViewController: UIViewController {
         if let _ = stepTimer {
             stepTimer?.invalidate()
             stepTimer = nil
+            timeLabelTimer?.invalidate()
             startStopButton.setTitle("Start", for: UIControlState.normal)
             statusLabel.text = ""
+            timeLabel.text = ""
         } else {
             stepTimer = Timer.scheduledTimer(timeInterval: 3,
                                              target: self,
@@ -50,110 +55,132 @@ class ViewController: UIViewController {
     
     func workBegin(_ timer: Timer) {
         print("workBegin")
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-        sleep(1)
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
         stepTimer = Timer.scheduledTimer(timeInterval: 10,
                                         target: self,
                                         selector: #selector(ViewController.work10(_:)),
                                         userInfo: nil,
                                         repeats: false)
         statusLabel.text = "Work"
-        timeLabel.text = "0"
+        timeLabelValue = 0
+        timeLabelTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { timer in
+            self.timeLabelValue = self.timeLabelValue+1
+            self.timeLabel.text = String(self.timeLabelValue)
+        })
+
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        sleep(1)
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
     }
 
     func work10(_ timer: Timer) {
         print("work10")
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
         stepTimer = Timer.scheduledTimer(timeInterval: 10,
                                         target: self,
                                         selector: #selector(ViewController.work20(_:)),
                                         userInfo: nil,
                                         repeats: false)
-        timeLabel.text = "10"
+
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
     }
+    
     func work20(_ timer: Timer) {
         print("work20")
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-        sleep(1)
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
         stepTimer = Timer.scheduledTimer(timeInterval: 10,
                                         target: self,
                                         selector: #selector(ViewController.work30(_:)),
                                         userInfo: nil,
                                         repeats: false)
-        timeLabel.text = "20"
+
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        sleep(1)
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
     }
+    
     func work30(_ timer: Timer) {
         print("work30")
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
         stepTimer = Timer.scheduledTimer(timeInterval: 10,
                                         target: self,
                                         selector: #selector(ViewController.workEnd(_:)),
                                         userInfo: nil,
                                         repeats: false)
-        timeLabel.text = "30"
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
     }
+    
     func workEnd(_ timer: Timer) {
         print("workEnd")
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
         stepTimer = Timer.scheduledTimer(timeInterval: 1,
                                         target: self,
                                         selector: #selector(ViewController.restBegin(_:)),
                                         userInfo: nil,
                                         repeats: false)
+        timeLabelTimer?.invalidate()
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
     }
+    
     func restBegin(_ timer: Timer) {
         print("restBegin")
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-        sleep(1)
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
         stepTimer = Timer.scheduledTimer(timeInterval: 3,
                                         target: self,
                                         selector: #selector(ViewController.rest3(_:)),
                                         userInfo: nil,
                                         repeats: false)
         statusLabel.text = "Rest"
+        
+        timeLabelValue = 0
         timeLabel.text = "0"
+        timeLabelTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { timer in
+            self.timeLabelValue = self.timeLabelValue+1
+            self.timeLabel.text = String(self.timeLabelValue)
+        })
+
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        sleep(1)
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
     }
+    
     func rest3(_ timer: Timer) {
         print("rest3")
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
         stepTimer = Timer.scheduledTimer(timeInterval: 3,
                                         target: self,
                                         selector: #selector(ViewController.rest6(_:)),
                                         userInfo: nil,
                                         repeats: false)
-        timeLabel.text = "3"
+
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
     }
+    
     func rest6(_ timer: Timer) {
         print("rest6")
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
         stepTimer = Timer.scheduledTimer(timeInterval: 3,
                                         target: self,
                                         selector: #selector(ViewController.rest9(_:)),
                                         userInfo: nil,
                                         repeats: false)
-        timeLabel.text = "6"
+
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
     }
+    
     func rest9(_ timer: Timer) {
         print("rest9")
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
         stepTimer = Timer.scheduledTimer(timeInterval: 3,
                                         target: self,
                                         selector: #selector(ViewController.restEnd(_:)),
                                         userInfo: nil,
                                         repeats: false)
-        timeLabel.text = "9"
+
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
     }
+    
     func restEnd(_ timer: Timer) {
         print("restEnd")
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
         stepTimer = Timer.scheduledTimer(timeInterval: 1,
                                         target: self,
                                         selector: #selector(ViewController.workBegin(_:)),
                                         userInfo: nil,
                                         repeats: false)
+
+        timeLabelTimer?.invalidate()
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
     }
 
 
