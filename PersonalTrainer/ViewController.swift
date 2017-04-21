@@ -25,6 +25,8 @@ class ViewController: UIViewController {
     let neutralColor = UIColor(red: 0.3, green: 0.3, blue: 0.3, alpha: 1.0)
     let workColor = UIColor(red: 0.2, green: 0.4, blue: 0.2, alpha: 1.0)
     let restColor = UIColor(red: 0.4, green: 0.2, blue: 0.2, alpha: 1.0)
+    
+    let backgroundNeutralColor = UIColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 1.0)
 
     var feedbackVibrate: Bool = true
     var feedbackLabel: Bool = true
@@ -69,6 +71,10 @@ class ViewController: UIViewController {
     
     
     
+    
+    
+    
+    
     @IBAction func vibrateChange(_ sender: UISwitch) {
         print("vibrateChange = \(sender.isOn)")
         feedbackVibrate = sender.isOn
@@ -77,17 +83,21 @@ class ViewController: UIViewController {
     @IBAction func labelChange(_ sender: UISwitch) {
         print("labelChange = \(sender.isOn)")
         feedbackLabel = sender.isOn
-        statusLabel.isHidden = feedbackLabel
+        statusLabel.isHidden = !feedbackLabel
     }
     
     @IBAction func colorChange(_ sender: UISwitch) {
         print("colorChange = \(sender.isOn)")
         feedbackColor = sender.isOn
+        if !feedbackColor {
+            mainView.backgroundColor = backgroundNeutralColor
+        }
     }
     
     @IBAction func timeChange(_ sender: UISwitch) {
         print("timeChange = \(sender.isOn)")
         feedbackTime = sender.isOn
+        timeLabel.isHidden = !feedbackTime
     }
     
     
@@ -106,7 +116,9 @@ class ViewController: UIViewController {
                                         userInfo: nil,
                                         repeats: false)
         statusLabel.text = "Work"
-        mainView.backgroundColor = workColor
+        if feedbackColor {
+            mainView.backgroundColor = workColor
+        }
         timeLabelValue = 0
         timeLabelTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { timer in
             self.timeLabelValue = self.timeLabelValue+1
@@ -182,7 +194,9 @@ class ViewController: UIViewController {
                                         repeats: false)
         statusLabel.text = "Rest"
 
-        mainView.backgroundColor = restColor
+        if feedbackColor {
+            mainView.backgroundColor = restColor
+        }
         timeLabelValue = 0
         timeLabel.text = "0"
         timeLabelTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { timer in
