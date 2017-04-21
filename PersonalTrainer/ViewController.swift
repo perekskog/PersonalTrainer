@@ -17,6 +17,16 @@ class ViewController: UIViewController {
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     
+    @IBOutlet weak var vibrateCheckbox: UISwitch!
+    @IBOutlet weak var labelCheckbox: UISwitch!
+    @IBOutlet weak var colorCheckbox: UISwitch!
+    @IBOutlet weak var timeCheckbox: UISwitch!
+    
+    var feedbackVibrate: Bool = true
+    var feedbackLabel: Bool = true
+    var feedbackColor: Bool = true
+    var feedbackTime: Bool = true
+    
     var stepTimer: Timer?
     var timeLabelTimer: Timer?
     var timeLabelValue = 0
@@ -54,6 +64,35 @@ class ViewController: UIViewController {
     }
     
     
+    
+    @IBAction func vibrateChange(_ sender: UISwitch) {
+        print("vibrateChange = \(sender.isOn)")
+        feedbackVibrate = sender.isOn
+    }
+    
+    @IBAction func labelChange(_ sender: UISwitch) {
+        print("labelChange = \(sender.isOn)")
+        feedbackLabel = sender.isOn
+    }
+    
+    @IBAction func colorChange(_ sender: UISwitch) {
+        print("colorChange = \(sender.isOn)")
+        feedbackColor = sender.isOn
+    }
+    
+    @IBAction func timeChange(_ sender: UISwitch) {
+        print("timeChange = \(sender.isOn)")
+        feedbackTime = sender.isOn
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
     func workBegin(_ timer: Timer) {
         print("workBegin")
         stepTimer = Timer.scheduledTimer(timeInterval: 10,
@@ -69,9 +108,11 @@ class ViewController: UIViewController {
             self.timeLabel.text = String(self.timeLabelValue)
         })
 
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-        sleep(1)
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        if feedbackVibrate {
+            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+            sleep(1)
+            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        }
     }
 
     func work10(_ timer: Timer) {
@@ -82,7 +123,9 @@ class ViewController: UIViewController {
                                         userInfo: nil,
                                         repeats: false)
 
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        if feedbackVibrate {
+            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        }
     }
     
     func work20(_ timer: Timer) {
@@ -93,9 +136,11 @@ class ViewController: UIViewController {
                                         userInfo: nil,
                                         repeats: false)
 
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-        sleep(1)
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        if feedbackVibrate {
+            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+            sleep(1)
+            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        }
     }
     
     func work30(_ timer: Timer) {
@@ -105,7 +150,9 @@ class ViewController: UIViewController {
                                         selector: #selector(ViewController.workEnd(_:)),
                                         userInfo: nil,
                                         repeats: false)
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        if feedbackVibrate {
+            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        }
     }
     
     func workEnd(_ timer: Timer) {
@@ -116,7 +163,9 @@ class ViewController: UIViewController {
                                         userInfo: nil,
                                         repeats: false)
         timeLabelTimer?.invalidate()
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        if feedbackVibrate {
+            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        }
     }
     
     func restBegin(_ timer: Timer) {
@@ -136,9 +185,11 @@ class ViewController: UIViewController {
             self.timeLabel.text = String(self.timeLabelValue)
         })
 
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-        sleep(1)
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        if feedbackVibrate {
+            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+            sleep(1)
+            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        }
     }
     
     func rest3(_ timer: Timer) {
@@ -149,7 +200,9 @@ class ViewController: UIViewController {
                                         userInfo: nil,
                                         repeats: false)
 
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        if feedbackVibrate {
+            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        }
     }
     
     func rest6(_ timer: Timer) {
@@ -160,7 +213,9 @@ class ViewController: UIViewController {
                                         userInfo: nil,
                                         repeats: false)
 
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        if feedbackVibrate {
+            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        }
     }
     
     func rest9(_ timer: Timer) {
@@ -171,7 +226,9 @@ class ViewController: UIViewController {
                                         userInfo: nil,
                                         repeats: false)
 
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        if feedbackVibrate {
+            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        }
     }
     
     func restEnd(_ timer: Timer) {
@@ -183,9 +240,9 @@ class ViewController: UIViewController {
                                         repeats: false)
 
         timeLabelTimer?.invalidate()
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        if feedbackVibrate {
+            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        }
     }
 
-
 }
-
