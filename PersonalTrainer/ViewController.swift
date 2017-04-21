@@ -14,6 +14,7 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var startStopButton: UIButton!
     @IBOutlet weak var statusLabel: UILabel!
+    @IBOutlet weak var timeLabel: UILabel!
     
     var stepTimer: Timer?
 
@@ -58,6 +59,7 @@ class ViewController: UIViewController {
                                         userInfo: nil,
                                         repeats: false)
         statusLabel.text = "Work"
+        timeLabel.text = "0"
     }
 
     func work10(_ timer: Timer) {
@@ -68,6 +70,7 @@ class ViewController: UIViewController {
                                         selector: #selector(ViewController.work20(_:)),
                                         userInfo: nil,
                                         repeats: false)
+        timeLabel.text = "10"
     }
     func work20(_ timer: Timer) {
         print("work20")
@@ -79,6 +82,7 @@ class ViewController: UIViewController {
                                         selector: #selector(ViewController.work30(_:)),
                                         userInfo: nil,
                                         repeats: false)
+        timeLabel.text = "20"
     }
     func work30(_ timer: Timer) {
         print("work30")
@@ -88,6 +92,7 @@ class ViewController: UIViewController {
                                         selector: #selector(ViewController.workEnd(_:)),
                                         userInfo: nil,
                                         repeats: false)
+        timeLabel.text = "30"
     }
     func workEnd(_ timer: Timer) {
         print("workEnd")
@@ -109,6 +114,7 @@ class ViewController: UIViewController {
                                         userInfo: nil,
                                         repeats: false)
         statusLabel.text = "Rest"
+        timeLabel.text = "0"
     }
     func rest3(_ timer: Timer) {
         print("rest3")
@@ -118,6 +124,7 @@ class ViewController: UIViewController {
                                         selector: #selector(ViewController.rest6(_:)),
                                         userInfo: nil,
                                         repeats: false)
+        timeLabel.text = "3"
     }
     func rest6(_ timer: Timer) {
         print("rest6")
@@ -127,6 +134,7 @@ class ViewController: UIViewController {
                                         selector: #selector(ViewController.rest9(_:)),
                                         userInfo: nil,
                                         repeats: false)
+        timeLabel.text = "6"
     }
     func rest9(_ timer: Timer) {
         print("rest9")
@@ -136,6 +144,7 @@ class ViewController: UIViewController {
                                         selector: #selector(ViewController.restEnd(_:)),
                                         userInfo: nil,
                                         repeats: false)
+        timeLabel.text = "9"
     }
     func restEnd(_ timer: Timer) {
         print("restEnd")
