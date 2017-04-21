@@ -12,6 +12,7 @@ import AudioToolbox
 class ViewController: UIViewController {
 
 
+    @IBOutlet var mainView: UIView!
     @IBOutlet weak var startStopButton: UIButton!
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
@@ -25,7 +26,7 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         statusLabel.text = ""
         timeLabel.text = ""
-
+        mainView.backgroundColor = UIColor(red: 0.3, green: 0.3, blue: 0.3, alpha: 1.0)
     }
 
     override func didReceiveMemoryWarning() {
@@ -61,6 +62,7 @@ class ViewController: UIViewController {
                                         userInfo: nil,
                                         repeats: false)
         statusLabel.text = "Work"
+        mainView.backgroundColor = UIColor(red: 0.2, green: 0.4, blue: 0.2, alpha: 1.0)
         timeLabelValue = 0
         timeLabelTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { timer in
             self.timeLabelValue = self.timeLabelValue+1
@@ -125,7 +127,8 @@ class ViewController: UIViewController {
                                         userInfo: nil,
                                         repeats: false)
         statusLabel.text = "Rest"
-        
+
+        mainView.backgroundColor = UIColor(red: 0.4, green: 0.2, blue: 0.2, alpha: 1.0)
         timeLabelValue = 0
         timeLabel.text = "0"
         timeLabelTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { timer in
