@@ -22,6 +22,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var colorCheckbox: UISwitch!
     @IBOutlet weak var timeCheckbox: UISwitch!
     
+    let neutralColor = UIColor(red: 0.3, green: 0.3, blue: 0.3, alpha: 1.0)
+    let workColor = UIColor(red: 0.2, green: 0.4, blue: 0.2, alpha: 1.0)
+    let restColor = UIColor(red: 0.4, green: 0.2, blue: 0.2, alpha: 1.0)
+
     var feedbackVibrate: Bool = true
     var feedbackLabel: Bool = true
     var feedbackColor: Bool = true
@@ -73,6 +77,7 @@ class ViewController: UIViewController {
     @IBAction func labelChange(_ sender: UISwitch) {
         print("labelChange = \(sender.isOn)")
         feedbackLabel = sender.isOn
+        statusLabel.isHidden = feedbackLabel
     }
     
     @IBAction func colorChange(_ sender: UISwitch) {
@@ -101,7 +106,7 @@ class ViewController: UIViewController {
                                         userInfo: nil,
                                         repeats: false)
         statusLabel.text = "Work"
-        mainView.backgroundColor = UIColor(red: 0.2, green: 0.4, blue: 0.2, alpha: 1.0)
+        mainView.backgroundColor = workColor
         timeLabelValue = 0
         timeLabelTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { timer in
             self.timeLabelValue = self.timeLabelValue+1
@@ -177,7 +182,7 @@ class ViewController: UIViewController {
                                         repeats: false)
         statusLabel.text = "Rest"
 
-        mainView.backgroundColor = UIColor(red: 0.4, green: 0.2, blue: 0.2, alpha: 1.0)
+        mainView.backgroundColor = restColor
         timeLabelValue = 0
         timeLabel.text = "0"
         timeLabelTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { timer in
