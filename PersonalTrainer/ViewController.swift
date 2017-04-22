@@ -91,6 +91,12 @@ class ViewController: UIViewController {
         feedbackColor = sender.isOn
         if !feedbackColor {
             mainView.backgroundColor = backgroundNeutralColor
+        } else {
+            if statusLabel.text == "Rest" {
+                mainView.backgroundColor = self.restColor
+            } else {
+                mainView.backgroundColor = self.workColor
+            }
         }
     }
     
