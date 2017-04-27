@@ -126,6 +126,7 @@ class ViewController: UIViewController {
             mainView.backgroundColor = workColor
         }
         timeLabelValue = 0
+        timeLabel.text = "0"
         timeLabelTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { _ in
             self.timeLabelValue = self.timeLabelValue+1
             self.timeLabel.text = String(self.timeLabelValue)
@@ -158,7 +159,7 @@ class ViewController: UIViewController {
                                         repeats: false)
 
         if feedbackVibrate {
-            vibrate(numberOfVibrations: 3, timeInterval: 1.0)
+            vibrate(numberOfVibrations: 2, timeInterval: 1.0)
         }
     }
     
@@ -189,9 +190,9 @@ class ViewController: UIViewController {
     
     func restBegin(_ timer: Timer) {
         print("restBegin")
-        stepTimer = Timer.scheduledTimer(timeInterval: 3,
+        stepTimer = Timer.scheduledTimer(timeInterval: 15,
                                         target: self,
-                                        selector: #selector(ViewController.rest3(_:)),
+                                        selector: #selector(ViewController.restEnd(_:)),
                                         userInfo: nil,
                                         repeats: false)
         statusLabel.text = "Rest"
@@ -208,47 +209,12 @@ class ViewController: UIViewController {
 
         if feedbackVibrate {
             vibrate(numberOfVibrations: 3, timeInterval: 0.5)
+            Timer.scheduledTimer(withTimeInterval: 3, repeats: false, block: { _ in 
+                self.vibrate(numberOfVibrations: 4, timeInterval: 3.0)
+            })
         }
     }
     
-    func rest3(_ timer: Timer) {
-        print("rest3")
-        stepTimer = Timer.scheduledTimer(timeInterval: 3,
-                                        target: self,
-                                        selector: #selector(ViewController.rest6(_:)),
-                                        userInfo: nil,
-                                        repeats: false)
-
-        if feedbackVibrate {
-            vibrate(numberOfVibrations: 1, timeInterval: 0)
-        }
-    }
-    
-    func rest6(_ timer: Timer) {
-        print("rest6")
-        stepTimer = Timer.scheduledTimer(timeInterval: 3,
-                                        target: self,
-                                        selector: #selector(ViewController.rest9(_:)),
-                                        userInfo: nil,
-                                        repeats: false)
-
-        if feedbackVibrate {
-            vibrate(numberOfVibrations: 1, timeInterval: 0)
-        }
-    }
-    
-    func rest9(_ timer: Timer) {
-        print("rest9")
-        stepTimer = Timer.scheduledTimer(timeInterval: 3,
-                                        target: self,
-                                        selector: #selector(ViewController.restEnd(_:)),
-                                        userInfo: nil,
-                                        repeats: false)
-
-        if feedbackVibrate {
-            vibrate(numberOfVibrations: 1, timeInterval: 0)
-        }
-    }
     
     func restEnd(_ timer: Timer) {
         print("restEnd")
