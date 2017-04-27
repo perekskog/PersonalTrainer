@@ -118,7 +118,7 @@ class ViewController: UIViewController {
         print("workBegin")
         stepTimer = Timer.scheduledTimer(timeInterval: 10,
                                         target: self,
-                                        selector: #selector(ViewController.workEnd(_:)),
+                                        selector: #selector(ViewController.work10(_:)),
                                         userInfo: nil,
                                         repeats: false)
         statusLabel.text = "Work"
