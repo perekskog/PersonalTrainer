@@ -23,8 +23,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var timeCheckbox: UISwitch!
     
     let neutralColor = UIColor(red: 0.3, green: 0.3, blue: 0.3, alpha: 1.0)
-    let workColor = UIColor(red: 0.2, green: 0.4, blue: 0.2, alpha: 1.0)
-    let restColor = UIColor(red: 0.4, green: 0.2, blue: 0.2, alpha: 1.0)
+    let workColor = UIColor(red: 0.2, green: 0.8, blue: 0.2, alpha: 1.0)
+    let restColor = UIColor(red: 0.8, green: 0.2, blue: 0.2, alpha: 1.0)
     
     let backgroundNeutralColor = UIColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 1.0)
 
@@ -118,7 +118,7 @@ class ViewController: UIViewController {
         print("workBegin")
         stepTimer = Timer.scheduledTimer(timeInterval: 10,
                                         target: self,
-                                        selector: #selector(ViewController.work10(_:)),
+                                        selector: #selector(ViewController.workEnd(_:)),
                                         userInfo: nil,
                                         repeats: false)
         statusLabel.text = "Work"
@@ -126,15 +126,13 @@ class ViewController: UIViewController {
             mainView.backgroundColor = workColor
         }
         timeLabelValue = 0
-        timeLabelTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { timer in
+        timeLabelTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { _ in
             self.timeLabelValue = self.timeLabelValue+1
             self.timeLabel.text = String(self.timeLabelValue)
         })
 
         if feedbackVibrate {
-            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-            sleep(1)
-            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+            vibrate(numberOfVibrations: 3, timeInterval: 0.5)
         }
     }
 
@@ -147,7 +145,7 @@ class ViewController: UIViewController {
                                         repeats: false)
 
         if feedbackVibrate {
-            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+            vibrate(numberOfVibrations: 1, timeInterval: 0)
         }
     }
     
@@ -160,9 +158,7 @@ class ViewController: UIViewController {
                                         repeats: false)
 
         if feedbackVibrate {
-            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-            sleep(1)
-            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+            vibrate(numberOfVibrations: 3, timeInterval: 1.0)
         }
     }
     
@@ -174,7 +170,7 @@ class ViewController: UIViewController {
                                         userInfo: nil,
                                         repeats: false)
         if feedbackVibrate {
-            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+            vibrate(numberOfVibrations: 1, timeInterval: 0)
         }
     }
     
@@ -187,7 +183,7 @@ class ViewController: UIViewController {
                                         repeats: false)
         timeLabelTimer?.invalidate()
         if feedbackVibrate {
-            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+            vibrate(numberOfVibrations: 1, timeInterval: 0)
         }
     }
     
@@ -205,15 +201,13 @@ class ViewController: UIViewController {
         }
         timeLabelValue = 0
         timeLabel.text = "0"
-        timeLabelTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { timer in
+        timeLabelTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { _ in
             self.timeLabelValue = self.timeLabelValue+1
             self.timeLabel.text = String(self.timeLabelValue)
         })
 
         if feedbackVibrate {
-            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-            sleep(1)
-            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+            vibrate(numberOfVibrations: 3, timeInterval: 0.5)
         }
     }
     
@@ -226,7 +220,7 @@ class ViewController: UIViewController {
                                         repeats: false)
 
         if feedbackVibrate {
-            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+            vibrate(numberOfVibrations: 1, timeInterval: 0)
         }
     }
     
@@ -239,7 +233,7 @@ class ViewController: UIViewController {
                                         repeats: false)
 
         if feedbackVibrate {
-            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+            vibrate(numberOfVibrations: 1, timeInterval: 0)
         }
     }
     
@@ -252,7 +246,7 @@ class ViewController: UIViewController {
                                         repeats: false)
 
         if feedbackVibrate {
-            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+            vibrate(numberOfVibrations: 1, timeInterval: 0)
         }
     }
     
@@ -266,8 +260,19 @@ class ViewController: UIViewController {
 
         timeLabelTimer?.invalidate()
         if feedbackVibrate {
-            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+            vibrate(numberOfVibrations: 1, timeInterval: 0)
         }
+    }
+    
+    func vibrate(numberOfVibrations: Int, timeInterval: TimeInterval) {
+        guard numberOfVibrations > 0 else {
+            return
+        }
+        print("<*>")
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: false, block: { _ in
+            self.vibrate(numberOfVibrations: numberOfVibrations-1, timeInterval:timeInterval)
+        })
     }
 
 }
