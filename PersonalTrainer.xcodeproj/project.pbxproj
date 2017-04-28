@@ -15,6 +15,7 @@
 		CBDDA2361EA7F2D100A7F394 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CBDDA2341EA7F2D100A7F394 /* LaunchScreen.storyboard */; };
 		CBDDA2411EA7F2D100A7F394 /* PersonalTrainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDDA2401EA7F2D100A7F394 /* PersonalTrainerTests.swift */; };
 		CBDDA24C1EA7F2D100A7F394 /* PersonalTrainerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDDA24B1EA7F2D100A7F394 /* PersonalTrainerUITests.swift */; };
+		CBFB520D1EB3F21000BF4FC2 /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CBFB520C1EB3F21000BF4FC2 /* Icons.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		CBDDA2471EA7F2D100A7F394 /* PersonalTrainerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PersonalTrainerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBDDA24B1EA7F2D100A7F394 /* PersonalTrainerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalTrainerUITests.swift; sourceTree = "<group>"; };
 		CBDDA24D1EA7F2D100A7F394 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CBFB520C1EB3F21000BF4FC2 /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 				CBDDA2341EA7F2D100A7F394 /* LaunchScreen.storyboard */,
 				CBDDA2371EA7F2D100A7F394 /* Info.plist */,
 				CBDDA22F1EA7F2D100A7F394 /* PersonalTrainer.xcdatamodeld */,
+				CBFB520C1EB3F21000BF4FC2 /* Icons.xcassets */,
 			);
 			path = PersonalTrainer;
 			sourceTree = "<group>";
@@ -240,6 +243,7 @@
 			files = (
 				CBDDA2361EA7F2D100A7F394 /* LaunchScreen.storyboard in Resources */,
 				CBDDA2331EA7F2D100A7F394 /* Assets.xcassets in Resources */,
+				CBFB520D1EB3F21000BF4FC2 /* Icons.xcassets in Resources */,
 				CBDDA22E1EA7F2D100A7F394 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -520,6 +524,7 @@
 				CBDDA2521EA7F2D100A7F394 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CBDDA2531EA7F2D100A7F394 /* Build configuration list for PBXNativeTarget "PersonalTrainerTests" */ = {
 			isa = XCConfigurationList;
@@ -528,6 +533,7 @@
 				CBDDA2551EA7F2D100A7F394 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CBDDA2561EA7F2D100A7F394 /* Build configuration list for PBXNativeTarget "PersonalTrainerUITests" */ = {
 			isa = XCConfigurationList;
@@ -536,6 +542,7 @@
 				CBDDA2581EA7F2D100A7F394 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

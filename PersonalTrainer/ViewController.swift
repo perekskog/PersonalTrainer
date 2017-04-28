@@ -13,9 +13,9 @@ class ViewController: UIViewController {
 
 
     @IBOutlet var mainView: UIView!
-    @IBOutlet weak var startStopButton: UIButton!
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var startStopView: UIImageView!
     
     @IBOutlet weak var vibrateCheckbox: UISwitch!
     @IBOutlet weak var labelCheckbox: UISwitch!
@@ -43,6 +43,7 @@ class ViewController: UIViewController {
         statusLabel.text = ""
         timeLabel.text = ""
         mainView.backgroundColor = UIColor(red: 0.3, green: 0.3, blue: 0.3, alpha: 1.0)
+        mainView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(ViewController.toggleStartStop(_:))))
     }
 
     override func didReceiveMemoryWarning() {
@@ -52,28 +53,37 @@ class ViewController: UIViewController {
     
 
     @IBAction func toggleStartStop(_ sender: UIButton) {
+        if feedbackVibrate {
+            vibrate(numberOfVibrations: 1, timeInterval: 0)
+        }
+
         if let _ = stepTimer {
             stepTimer?.invalidate()
             stepTimer = nil
             timeLabelTimer?.invalidate()
-            startStopButton.setTitle("Start", for: UIControlState.normal)
             statusLabel.text = ""
             timeLabel.text = ""
+
+            startStopView.image = UIImage(named: "play")
         } else {
-            stepTimer = Timer.scheduledTimer(timeInterval: 3,
+            stepTimer = Timer.scheduledTimer(timeInterval: 0,
                                              target: self,
                                              selector: #selector(ViewController.restEnd(_:)),
                                              userInfo: nil,
                                              repeats: false)
-            startStopButton.setTitle("Stop", for: UIControlState.normal)
+            
+            startStopView.image = UIImage(named: "stop")
         }
     }
     
     
     
     
+    @IBAction func tapStartStop(_ sender: UITapGestureRecognizer) {
+        print("Start/stop")
+    }
     
-    
+
     
     @IBAction func vibrateChange(_ sender: UISwitch) {
         print("vibrateChange = \(sender.isOn)")
