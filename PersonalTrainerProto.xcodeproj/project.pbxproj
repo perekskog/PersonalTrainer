@@ -36,7 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		CBDDA2251EA7F2D100A7F394 /* PersonalTrainer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PersonalTrainer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CBDDA2251EA7F2D100A7F394 /* PersonalTrainerProto.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PersonalTrainerProto.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBDDA2281EA7F2D100A7F394 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CBDDA22A1EA7F2D100A7F394 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		CBDDA22D1EA7F2D100A7F394 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -44,10 +44,10 @@
 		CBDDA2321EA7F2D100A7F394 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CBDDA2351EA7F2D100A7F394 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CBDDA2371EA7F2D100A7F394 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CBDDA23C1EA7F2D100A7F394 /* PersonalTrainerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PersonalTrainerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CBDDA23C1EA7F2D100A7F394 /* PersonalTrainerProtoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PersonalTrainerProtoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBDDA2401EA7F2D100A7F394 /* PersonalTrainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalTrainerTests.swift; sourceTree = "<group>"; };
 		CBDDA2421EA7F2D100A7F394 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CBDDA2471EA7F2D100A7F394 /* PersonalTrainerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PersonalTrainerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CBDDA2471EA7F2D100A7F394 /* PersonalTrainerProtoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PersonalTrainerProtoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBDDA24B1EA7F2D100A7F394 /* PersonalTrainerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalTrainerUITests.swift; sourceTree = "<group>"; };
 		CBDDA24D1EA7F2D100A7F394 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CBFB520C1EB3F21000BF4FC2 /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
@@ -91,9 +91,9 @@
 		CBDDA2261EA7F2D100A7F394 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CBDDA2251EA7F2D100A7F394 /* PersonalTrainer.app */,
-				CBDDA23C1EA7F2D100A7F394 /* PersonalTrainerTests.xctest */,
-				CBDDA2471EA7F2D100A7F394 /* PersonalTrainerUITests.xctest */,
+				CBDDA2251EA7F2D100A7F394 /* PersonalTrainerProto.app */,
+				CBDDA23C1EA7F2D100A7F394 /* PersonalTrainerProtoTests.xctest */,
+				CBDDA2471EA7F2D100A7F394 /* PersonalTrainerProtoUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -134,9 +134,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		CBDDA2241EA7F2D100A7F394 /* PersonalTrainer */ = {
+		CBDDA2241EA7F2D100A7F394 /* PersonalTrainerProto */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CBDDA2501EA7F2D100A7F394 /* Build configuration list for PBXNativeTarget "PersonalTrainer" */;
+			buildConfigurationList = CBDDA2501EA7F2D100A7F394 /* Build configuration list for PBXNativeTarget "PersonalTrainerProto" */;
 			buildPhases = (
 				CBDDA2211EA7F2D100A7F394 /* Sources */,
 				CBDDA2221EA7F2D100A7F394 /* Frameworks */,
@@ -146,14 +146,14 @@
 			);
 			dependencies = (
 			);
-			name = PersonalTrainer;
+			name = PersonalTrainerProto;
 			productName = PersonalTrainer;
-			productReference = CBDDA2251EA7F2D100A7F394 /* PersonalTrainer.app */;
+			productReference = CBDDA2251EA7F2D100A7F394 /* PersonalTrainerProto.app */;
 			productType = "com.apple.product-type.application";
 		};
-		CBDDA23B1EA7F2D100A7F394 /* PersonalTrainerTests */ = {
+		CBDDA23B1EA7F2D100A7F394 /* PersonalTrainerProtoTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CBDDA2531EA7F2D100A7F394 /* Build configuration list for PBXNativeTarget "PersonalTrainerTests" */;
+			buildConfigurationList = CBDDA2531EA7F2D100A7F394 /* Build configuration list for PBXNativeTarget "PersonalTrainerProtoTests" */;
 			buildPhases = (
 				CBDDA2381EA7F2D100A7F394 /* Sources */,
 				CBDDA2391EA7F2D100A7F394 /* Frameworks */,
@@ -164,14 +164,14 @@
 			dependencies = (
 				CBDDA23E1EA7F2D100A7F394 /* PBXTargetDependency */,
 			);
-			name = PersonalTrainerTests;
+			name = PersonalTrainerProtoTests;
 			productName = PersonalTrainerTests;
-			productReference = CBDDA23C1EA7F2D100A7F394 /* PersonalTrainerTests.xctest */;
+			productReference = CBDDA23C1EA7F2D100A7F394 /* PersonalTrainerProtoTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		CBDDA2461EA7F2D100A7F394 /* PersonalTrainerUITests */ = {
+		CBDDA2461EA7F2D100A7F394 /* PersonalTrainerProtoUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CBDDA2561EA7F2D100A7F394 /* Build configuration list for PBXNativeTarget "PersonalTrainerUITests" */;
+			buildConfigurationList = CBDDA2561EA7F2D100A7F394 /* Build configuration list for PBXNativeTarget "PersonalTrainerProtoUITests" */;
 			buildPhases = (
 				CBDDA2431EA7F2D100A7F394 /* Sources */,
 				CBDDA2441EA7F2D100A7F394 /* Frameworks */,
@@ -182,9 +182,9 @@
 			dependencies = (
 				CBDDA2491EA7F2D100A7F394 /* PBXTargetDependency */,
 			);
-			name = PersonalTrainerUITests;
+			name = PersonalTrainerProtoUITests;
 			productName = PersonalTrainerUITests;
-			productReference = CBDDA2471EA7F2D100A7F394 /* PersonalTrainerUITests.xctest */;
+			productReference = CBDDA2471EA7F2D100A7F394 /* PersonalTrainerProtoUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -216,7 +216,7 @@
 					};
 				};
 			};
-			buildConfigurationList = CBDDA2201EA7F2D100A7F394 /* Build configuration list for PBXProject "PersonalTrainer" */;
+			buildConfigurationList = CBDDA2201EA7F2D100A7F394 /* Build configuration list for PBXProject "PersonalTrainerProto" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -229,9 +229,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				CBDDA2241EA7F2D100A7F394 /* PersonalTrainer */,
-				CBDDA23B1EA7F2D100A7F394 /* PersonalTrainerTests */,
-				CBDDA2461EA7F2D100A7F394 /* PersonalTrainerUITests */,
+				CBDDA2241EA7F2D100A7F394 /* PersonalTrainerProto */,
+				CBDDA23B1EA7F2D100A7F394 /* PersonalTrainerProtoTests */,
+				CBDDA2461EA7F2D100A7F394 /* PersonalTrainerProtoUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -296,12 +296,12 @@
 /* Begin PBXTargetDependency section */
 		CBDDA23E1EA7F2D100A7F394 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = CBDDA2241EA7F2D100A7F394 /* PersonalTrainer */;
+			target = CBDDA2241EA7F2D100A7F394 /* PersonalTrainerProto */;
 			targetProxy = CBDDA23D1EA7F2D100A7F394 /* PBXContainerItemProxy */;
 		};
 		CBDDA2491EA7F2D100A7F394 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = CBDDA2241EA7F2D100A7F394 /* PersonalTrainer */;
+			target = CBDDA2241EA7F2D100A7F394 /* PersonalTrainerProto */;
 			targetProxy = CBDDA2481EA7F2D100A7F394 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -428,7 +428,7 @@
 				DEVELOPMENT_TEAM = EM6H3CE23M;
 				INFOPLIST_FILE = PersonalTrainer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = se.perekskog.PersonalTrainer;
+				PRODUCT_BUNDLE_IDENTIFIER = se.perekskog.PersonalTrainerProto;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -441,7 +441,7 @@
 				DEVELOPMENT_TEAM = EM6H3CE23M;
 				INFOPLIST_FILE = PersonalTrainer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = se.perekskog.PersonalTrainer;
+				PRODUCT_BUNDLE_IDENTIFIER = se.perekskog.PersonalTrainerProto;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -458,7 +458,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = se.perekskog.PersonalTrainerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PersonalTrainer.app/PersonalTrainer";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PersonalTrainerProto.app/PersonalTrainerProto";
 			};
 			name = Debug;
 		};
@@ -473,7 +473,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = se.perekskog.PersonalTrainerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PersonalTrainer.app/PersonalTrainer";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PersonalTrainerProto.app/PersonalTrainerProto";
 			};
 			name = Release;
 		};
@@ -508,7 +508,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		CBDDA2201EA7F2D100A7F394 /* Build configuration list for PBXProject "PersonalTrainer" */ = {
+		CBDDA2201EA7F2D100A7F394 /* Build configuration list for PBXProject "PersonalTrainerProto" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CBDDA24E1EA7F2D100A7F394 /* Debug */,
@@ -517,7 +517,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CBDDA2501EA7F2D100A7F394 /* Build configuration list for PBXNativeTarget "PersonalTrainer" */ = {
+		CBDDA2501EA7F2D100A7F394 /* Build configuration list for PBXNativeTarget "PersonalTrainerProto" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CBDDA2511EA7F2D100A7F394 /* Debug */,
@@ -526,7 +526,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CBDDA2531EA7F2D100A7F394 /* Build configuration list for PBXNativeTarget "PersonalTrainerTests" */ = {
+		CBDDA2531EA7F2D100A7F394 /* Build configuration list for PBXNativeTarget "PersonalTrainerProtoTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CBDDA2541EA7F2D100A7F394 /* Debug */,
@@ -535,7 +535,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CBDDA2561EA7F2D100A7F394 /* Build configuration list for PBXNativeTarget "PersonalTrainerUITests" */ = {
+		CBDDA2561EA7F2D100A7F394 /* Build configuration list for PBXNativeTarget "PersonalTrainerProtoUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CBDDA2571EA7F2D100A7F394 /* Debug */,

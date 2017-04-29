@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CBDDA2241EA7F2D100A7F394"
-               BuildableName = "PersonalTrainer.app"
-               BlueprintName = "PersonalTrainer"
-               ReferencedContainer = "container:PersonalTrainer.xcodeproj">
+               BuildableName = "PersonalTrainerProto.app"
+               BlueprintName = "PersonalTrainerProto"
+               ReferencedContainer = "container:PersonalTrainerProto.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CBDDA23B1EA7F2D100A7F394"
-               BuildableName = "PersonalTrainerTests.xctest"
-               BlueprintName = "PersonalTrainerTests"
-               ReferencedContainer = "container:PersonalTrainer.xcodeproj">
+               BuildableName = "PersonalTrainerProtoTests.xctest"
+               BlueprintName = "PersonalTrainerProtoTests"
+               ReferencedContainer = "container:PersonalTrainerProto.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CBDDA2461EA7F2D100A7F394"
-               BuildableName = "PersonalTrainerUITests.xctest"
-               BlueprintName = "PersonalTrainerUITests"
-               ReferencedContainer = "container:PersonalTrainer.xcodeproj">
+               BuildableName = "PersonalTrainerProtoUITests.xctest"
+               BlueprintName = "PersonalTrainerProtoUITests"
+               ReferencedContainer = "container:PersonalTrainerProto.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -53,9 +53,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CBDDA2241EA7F2D100A7F394"
-            BuildableName = "PersonalTrainer.app"
-            BlueprintName = "PersonalTrainer"
-            ReferencedContainer = "container:PersonalTrainer.xcodeproj">
+            BuildableName = "PersonalTrainerProto.app"
+            BlueprintName = "PersonalTrainerProto"
+            ReferencedContainer = "container:PersonalTrainerProto.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -76,9 +76,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CBDDA2241EA7F2D100A7F394"
-            BuildableName = "PersonalTrainer.app"
-            BlueprintName = "PersonalTrainer"
-            ReferencedContainer = "container:PersonalTrainer.xcodeproj">
+            BuildableName = "PersonalTrainerProto.app"
+            BlueprintName = "PersonalTrainerProto"
+            ReferencedContainer = "container:PersonalTrainerProto.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -95,9 +95,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CBDDA2241EA7F2D100A7F394"
-            BuildableName = "PersonalTrainer.app"
-            BlueprintName = "PersonalTrainer"
-            ReferencedContainer = "container:PersonalTrainer.xcodeproj">
+            BuildableName = "PersonalTrainerProto.app"
+            BlueprintName = "PersonalTrainerProto"
+            ReferencedContainer = "container:PersonalTrainerProto.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
