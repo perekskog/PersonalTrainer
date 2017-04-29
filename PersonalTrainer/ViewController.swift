@@ -76,15 +76,6 @@ class ViewController: UIViewController {
         }
     }
     
-    
-    
-    
-    @IBAction func tapStartStop(_ sender: UITapGestureRecognizer) {
-        print("Start/stop")
-    }
-    
-
-    
     @IBAction func vibrateChange(_ sender: UISwitch) {
         print("vibrateChange = \(sender.isOn)")
         feedbackVibrate = sender.isOn
