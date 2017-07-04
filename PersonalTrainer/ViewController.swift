@@ -9,6 +9,33 @@
 import UIKit
 import AudioToolbox
 
+
+class TimeLabel {
+    var timer: Timer?
+    var value: Int = 0
+    var label: UILabel
+
+    init(aLabel: UILabel) {
+        label = aLabel
+    }
+    func setValue(newValue: Int) {
+        value = newValue
+    }
+    func start() {
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false, block: { _ in
+            self.value = self.value+1
+            self.label.text = String(self.value)
+        })
+    }
+    func stop() {
+        timer?.invalidate()
+    }
+}
+
+class Vibrator {
+    
+}
+
 class ViewController: UIViewController {
 
 
@@ -35,6 +62,7 @@ class ViewController: UIViewController {
     
     var stepTimer: Timer?
     var timeLabelTimer: Timer?
+    
     var timeLabelValue = 0
 
     override func viewDidLoad() {
@@ -54,7 +82,7 @@ class ViewController: UIViewController {
 
     @IBAction func toggleStartStop(_ sender: UIButton) {
         if feedbackVibrate {
-            vibrate(numberOfVibrations: 1, timeInterval: 0)
+            vibrate(numberOfVibrations: 1, timeInterval: 0, skipInitial: false)
         }
 
         if let _ = stepTimer {
@@ -68,13 +96,16 @@ class ViewController: UIViewController {
         } else {
             stepTimer = Timer.scheduledTimer(timeInterval: 0,
                                              target: self,
-                                             selector: #selector(ViewController.restEnd(_:)),
+                                             selector: #selector(ViewController.workBegin(_:)),
                                              userInfo: nil,
                                              repeats: false)
             
             startStopView.image = UIImage(named: "stop")
         }
     }
+    
+    
+    
     
     @IBAction func vibrateChange(_ sender: UISwitch) {
         print("vibrateChange = \(sender.isOn)")
@@ -111,6 +142,21 @@ class ViewController: UIViewController {
     
     
     
+    func vibrate(numberOfVibrations: Int, timeInterval: TimeInterval, skipInitial: Bool) {
+        guard numberOfVibrations > 0 else {
+            return
+        }
+        if(!skipInitial) {
+            print("<*>")
+            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        }
+        Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: false, block: { _ in
+            self.vibrate(numberOfVibrations: numberOfVibrations-1, timeInterval:timeInterval, skipInitial: skipInitial)
+        })
+    }
+
+    
+    
     
     
     
@@ -119,7 +165,7 @@ class ViewController: UIViewController {
         print("workBegin")
         stepTimer = Timer.scheduledTimer(timeInterval: 10,
                                         target: self,
-                                        selector: #selector(ViewController.work10(_:)),
+                                        selector: #selector(ViewController.restBegin(_:)),
                                         userInfo: nil,
                                         repeats: false)
         statusLabel.text = "Work"
@@ -129,71 +175,23 @@ class ViewController: UIViewController {
         timeLabelValue = 0
         timeLabel.text = "0"
         timeLabelTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { _ in
-            self.timeLabelValue = self.timeLabelValue+1
+            self.timeLabelValue = self.timeLabelValue + 1
             self.timeLabel.text = String(self.timeLabelValue)
         })
 
         if feedbackVibrate {
-            vibrate(numberOfVibrations: 3, timeInterval: 0.5)
+            vibrate(numberOfVibrations: 3, timeInterval: 0.5, skipInitial: false)
+            vibrate(numberOfVibrations: 3, timeInterval: 10.0, skipInitial: true);
         }
     }
 
-    func work10(_ timer: Timer) {
-        print("work10")
-        stepTimer = Timer.scheduledTimer(timeInterval: 10,
-                                        target: self,
-                                        selector: #selector(ViewController.work20(_:)),
-                                        userInfo: nil,
-                                        repeats: false)
 
-        if feedbackVibrate {
-            vibrate(numberOfVibrations: 1, timeInterval: 0)
-        }
-    }
-    
-    func work20(_ timer: Timer) {
-        print("work20")
-        stepTimer = Timer.scheduledTimer(timeInterval: 10,
-                                        target: self,
-                                        selector: #selector(ViewController.work30(_:)),
-                                        userInfo: nil,
-                                        repeats: false)
-
-        if feedbackVibrate {
-            vibrate(numberOfVibrations: 2, timeInterval: 1.0)
-        }
-    }
-    
-    func work30(_ timer: Timer) {
-        print("work30")
-        stepTimer = Timer.scheduledTimer(timeInterval: 10,
-                                        target: self,
-                                        selector: #selector(ViewController.workEnd(_:)),
-                                        userInfo: nil,
-                                        repeats: false)
-        if feedbackVibrate {
-            vibrate(numberOfVibrations: 1, timeInterval: 0)
-        }
-    }
-    
-    func workEnd(_ timer: Timer) {
-        print("workEnd")
-        stepTimer = Timer.scheduledTimer(timeInterval: 1,
-                                        target: self,
-                                        selector: #selector(ViewController.restBegin(_:)),
-                                        userInfo: nil,
-                                        repeats: false)
-        timeLabelTimer?.invalidate()
-        if feedbackVibrate {
-            vibrate(numberOfVibrations: 1, timeInterval: 0)
-        }
-    }
     
     func restBegin(_ timer: Timer) {
         print("restBegin")
         stepTimer = Timer.scheduledTimer(timeInterval: 15,
                                         target: self,
-                                        selector: #selector(ViewController.restEnd(_:)),
+                                        selector: #selector(ViewController.workBegin(_:)),
                                         userInfo: nil,
                                         repeats: false)
         statusLabel.text = "Rest"
@@ -209,37 +207,11 @@ class ViewController: UIViewController {
         })
 
         if feedbackVibrate {
-            vibrate(numberOfVibrations: 3, timeInterval: 0.5)
+            vibrate(numberOfVibrations: 3, timeInterval: 0.5, skipInitial: false)
             Timer.scheduledTimer(withTimeInterval: 3, repeats: false, block: { _ in 
-                self.vibrate(numberOfVibrations: 4, timeInterval: 3.0)
+                self.vibrate(numberOfVibrations: 4, timeInterval: 3.0, skipInitial: true)
             })
         }
-    }
-    
-    
-    func restEnd(_ timer: Timer) {
-        print("restEnd")
-        stepTimer = Timer.scheduledTimer(timeInterval: 1,
-                                        target: self,
-                                        selector: #selector(ViewController.workBegin(_:)),
-                                        userInfo: nil,
-                                        repeats: false)
-
-        timeLabelTimer?.invalidate()
-        if feedbackVibrate {
-            vibrate(numberOfVibrations: 1, timeInterval: 0)
-        }
-    }
-    
-    func vibrate(numberOfVibrations: Int, timeInterval: TimeInterval) {
-        guard numberOfVibrations > 0 else {
-            return
-        }
-        print("<*>")
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-        Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: false, block: { _ in
-            self.vibrate(numberOfVibrations: numberOfVibrations-1, timeInterval:timeInterval)
-        })
     }
 
 }
