@@ -96,7 +96,7 @@ class ViewController: UIViewController {
 
     @IBAction func toggleStartStop(_ sender: UIButton) {
         if feedbackVibrate {
-            vibrate(numberOfVibrations: 1, timeInterval: 0, skipInitial: false)
+            vibrate(numberOfVibrations: 1, timeInterval: 0, skipInitial: false, completed: {_ in})
         }
 
         if let _ = stepTimer {
@@ -155,8 +155,9 @@ class ViewController: UIViewController {
     
     
     
-    func vibrate(numberOfVibrations: Int, timeInterval: TimeInterval, skipInitial: Bool) {
+    func vibrate(numberOfVibrations: Int, timeInterval: TimeInterval, skipInitial: Bool, completed:@escaping () -> Void) {
         guard numberOfVibrations > 0 else {
+            completed()
             return
         }
         if(!skipInitial) {
@@ -164,7 +165,7 @@ class ViewController: UIViewController {
             AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
         }
         Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: false, block: { _ in
-            self.vibrate(numberOfVibrations: numberOfVibrations-1, timeInterval:timeInterval, skipInitial: skipInitial)
+            self.vibrate(numberOfVibrations: numberOfVibrations-1, timeInterval:timeInterval, skipInitial: skipInitial, completed: completed)
         })
     }
 
@@ -188,8 +189,9 @@ class ViewController: UIViewController {
         timeAnim?.setValue(newValue: 0)
 
         if feedbackVibrate {
-            vibrate(numberOfVibrations: 3, timeInterval: 0.5, skipInitial: false)
-            vibrate(numberOfVibrations: 3, timeInterval: 10.0, skipInitial: true);
+            vibrate(numberOfVibrations: 3, timeInterval: 0.5, skipInitial: false, completed: { () -> Void in
+                self.vibrate(numberOfVibrations: 3, timeInterval: 10.0, skipInitial: true, completed: { _ in });
+            })
         }
     }
 
@@ -211,9 +213,8 @@ class ViewController: UIViewController {
         timeAnim?.setValue(newValue: 0)
 
         if feedbackVibrate {
-            vibrate(numberOfVibrations: 3, timeInterval: 0.5, skipInitial: false)
-            Timer.scheduledTimer(withTimeInterval: 3, repeats: false, block: { _ in 
-                self.vibrate(numberOfVibrations: 4, timeInterval: 3.0, skipInitial: true)
+            vibrate(numberOfVibrations: 3, timeInterval: 0.5, skipInitial: false, completed: { () -> Void in
+                self.vibrate(numberOfVibrations: 4, timeInterval: 3.0, skipInitial: true, completed: {_ in})
             })
         }
     }
