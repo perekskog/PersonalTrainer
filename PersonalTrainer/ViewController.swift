@@ -27,6 +27,9 @@ class TimeAnim {
     func start() {
         print("TimeAnim.start")
 
+        if let _ = timer {
+            timer?.invalidate()
+        }
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in
             self.value = self.value+1
             self.label.text = String(self.value)
@@ -111,6 +114,7 @@ class ViewController: UIViewController {
                                              repeats: false)
             
             startStopView.image = UIImage(named: "stop")
+            timeAnim?.start()
         }
     }
     
@@ -182,7 +186,6 @@ class ViewController: UIViewController {
             mainView.backgroundColor = workColor
         }
         timeAnim?.setValue(newValue: 0)
-        timeAnim?.start()
 
         if feedbackVibrate {
             vibrate(numberOfVibrations: 3, timeInterval: 0.5, skipInitial: false)
@@ -204,6 +207,7 @@ class ViewController: UIViewController {
         if feedbackColor {
             mainView.backgroundColor = restColor
         }
+        
         timeAnim?.setValue(newValue: 0)
 
         if feedbackVibrate {
