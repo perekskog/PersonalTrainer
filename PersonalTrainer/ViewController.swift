@@ -10,25 +10,36 @@ import UIKit
 import AudioToolbox
 
 
-class TimeLabel {
+class TimeAnim {
     var timer: Timer?
     var value: Int = 0
     var label: UILabel
 
     init(aLabel: UILabel) {
         label = aLabel
+        label.text = ""
     }
     func setValue(newValue: Int) {
+        print("TimeAnim.setValue")
+
         value = newValue
     }
     func start() {
-        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false, block: { _ in
+        print("TimeAnim.start")
+
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in
             self.value = self.value+1
             self.label.text = String(self.value)
         })
     }
     func stop() {
+        print("TimeAnim.stop")
         timer?.invalidate()
+        self.label.text = ""
+    }
+    func setVisibility(visible: Bool) {
+        print("TimeAnim.setVisibility")
+        label.isHidden = !visible
     }
 }
 
@@ -61,17 +72,17 @@ class ViewController: UIViewController {
     var feedbackTime: Bool = true
     
     var stepTimer: Timer?
-    var timeLabelTimer: Timer?
     
-    var timeLabelValue = 0
-
+    var timeAnim: TimeAnim?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         statusLabel.text = ""
-        timeLabel.text = ""
         mainView.backgroundColor = UIColor(red: 0.3, green: 0.3, blue: 0.3, alpha: 1.0)
         mainView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(ViewController.toggleStartStop(_:))))
+        
+        timeAnim = TimeAnim(aLabel: timeLabel)
     }
 
     override func didReceiveMemoryWarning() {
@@ -88,9 +99,8 @@ class ViewController: UIViewController {
         if let _ = stepTimer {
             stepTimer?.invalidate()
             stepTimer = nil
-            timeLabelTimer?.invalidate()
+            timeAnim?.stop()
             statusLabel.text = ""
-            timeLabel.text = ""
 
             startStopView.image = UIImage(named: "play")
         } else {
@@ -112,10 +122,9 @@ class ViewController: UIViewController {
         feedbackVibrate = sender.isOn
     }
     
-    @IBAction func labelChange(_ sender: UISwitch) {
-        print("labelChange = \(sender.isOn)")
-        feedbackLabel = sender.isOn
-        statusLabel.isHidden = !feedbackLabel
+    @IBAction func timeChange(_ sender: UISwitch) {
+        print("timeChange = \(sender.isOn)")
+        timeAnim?.setVisibility(visible: sender.isOn)
     }
     
     @IBAction func colorChange(_ sender: UISwitch) {
@@ -132,10 +141,10 @@ class ViewController: UIViewController {
         }
     }
     
-    @IBAction func timeChange(_ sender: UISwitch) {
-        print("timeChange = \(sender.isOn)")
+    @IBAction func labelChange(_ sender: UISwitch) {
+        print("labelChange = \(sender.isOn)")
         feedbackTime = sender.isOn
-        timeLabel.isHidden = !feedbackTime
+        statusLabel.isHidden = !feedbackTime
     }
     
     
@@ -172,12 +181,8 @@ class ViewController: UIViewController {
         if feedbackColor {
             mainView.backgroundColor = workColor
         }
-        timeLabelValue = 0
-        timeLabel.text = "0"
-        timeLabelTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { _ in
-            self.timeLabelValue = self.timeLabelValue + 1
-            self.timeLabel.text = String(self.timeLabelValue)
-        })
+        timeAnim?.setValue(newValue: 0)
+        timeAnim?.start()
 
         if feedbackVibrate {
             vibrate(numberOfVibrations: 3, timeInterval: 0.5, skipInitial: false)
@@ -199,12 +204,7 @@ class ViewController: UIViewController {
         if feedbackColor {
             mainView.backgroundColor = restColor
         }
-        timeLabelValue = 0
-        timeLabel.text = "0"
-        timeLabelTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { _ in
-            self.timeLabelValue = self.timeLabelValue+1
-            self.timeLabel.text = String(self.timeLabelValue)
-        })
+        timeAnim?.setValue(newValue: 0)
 
         if feedbackVibrate {
             vibrate(numberOfVibrations: 3, timeInterval: 0.5, skipInitial: false)
