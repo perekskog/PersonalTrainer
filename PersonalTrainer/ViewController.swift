@@ -117,17 +117,17 @@ class ViewController: UIViewController {
     
     
     
-    @IBAction func vibrateChange(_ sender: UISwitch) {
+    @IBAction func vibrateToggle(_ sender: UISwitch) {
         print("vibrateChange = \(sender.isOn)")
         feedbackVibrate = sender.isOn
     }
     
-    @IBAction func timeChange(_ sender: UISwitch) {
+    @IBAction func timeToggle(_ sender: UISwitch) {
         print("timeChange = \(sender.isOn)")
         timeAnim?.setVisibility(visible: sender.isOn)
     }
     
-    @IBAction func colorChange(_ sender: UISwitch) {
+    @IBAction func colorToggle(_ sender: UISwitch) {
         print("colorChange = \(sender.isOn)")
         feedbackColor = sender.isOn
         if !feedbackColor {
@@ -141,7 +141,7 @@ class ViewController: UIViewController {
         }
     }
     
-    @IBAction func labelChange(_ sender: UISwitch) {
+    @IBAction func labelToggle(_ sender: UISwitch) {
         print("labelChange = \(sender.isOn)")
         feedbackTime = sender.isOn
         statusLabel.isHidden = !feedbackTime
