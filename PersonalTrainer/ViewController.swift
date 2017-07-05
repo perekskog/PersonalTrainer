@@ -20,12 +20,12 @@ class TimeAnim {
         label.text = ""
     }
     func setValue(newValue: Int) {
-        print("TimeAnim.setValue")
+        print("\(Log.timestamp()): TimeAnim.setValue")
 
         value = newValue
     }
     func start() {
-        print("TimeAnim.start")
+        print("\(Log.timestamp()): TimeAnim.start")
 
         if let _ = timer {
             timer?.invalidate()
@@ -36,19 +36,27 @@ class TimeAnim {
         })
     }
     func stop() {
-        print("TimeAnim.stop")
+        print("\(Log.timestamp()): TimeAnim.stop")
         timer?.invalidate()
         self.label.text = ""
     }
     func setVisibility(visible: Bool) {
-        print("TimeAnim.setVisibility")
+        print("\(Log.timestamp()): TimeAnim.setVisibility")
         label.isHidden = !visible
     }
 }
 
-class Vibrator {
-    
+
+class Log {
+    class func timestamp() -> String {
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "hh:mm.ss.SSSS"
+        return formatter.string(from: date)
+    }
 }
+
+
 
 class ViewController: UIViewController {
 
@@ -95,11 +103,11 @@ class ViewController: UIViewController {
     
 
     @IBAction func toggleStartStop(_ sender: UIButton) {
-        print("\(timestamp()): toggleStartStop")
+        print("\(Log.timestamp()): toggleStartStop")
 
         if feedbackVibrate {
             vibrate(numberOfVibrations: 1, timeInterval: 0, skipInitial: false, completed: {_ in
-                print("toggleStartStop...completed")
+                print("\(Log.timestamp()): toggleStartStop...completed")
             }, id: "toggleStartStop")
         }
 
@@ -126,17 +134,17 @@ class ViewController: UIViewController {
     
     
     @IBAction func vibrateToggle(_ sender: UISwitch) {
-        print("\(timestamp()): vibrateToggle = \(sender.isOn)")
+        print("\(Log.timestamp()): vibrateToggle = \(sender.isOn)")
         feedbackVibrate = sender.isOn
     }
     
     @IBAction func timeToggle(_ sender: UISwitch) {
-        print("\(timestamp()): timeToggle = \(sender.isOn)")
+        print("\(Log.timestamp()): timeToggle = \(sender.isOn)")
         timeAnim?.setVisibility(visible: sender.isOn)
     }
     
     @IBAction func colorToggle(_ sender: UISwitch) {
-        print("\(timestamp()): colorToggle = \(sender.isOn)")
+        print("\(Log.timestamp()): colorToggle = \(sender.isOn)")
         feedbackColor = sender.isOn
         if !feedbackColor {
             mainView.backgroundColor = backgroundNeutralColor
@@ -150,7 +158,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func labelToggle(_ sender: UISwitch) {
-        print("\(timestamp()): labelToggle = \(sender.isOn)")
+        print("\(Log.timestamp()): labelToggle = \(sender.isOn)")
         feedbackTime = sender.isOn
         statusLabel.isHidden = !feedbackTime
     }
@@ -160,32 +168,26 @@ class ViewController: UIViewController {
     
     
     func vibrate(numberOfVibrations: Int, timeInterval: TimeInterval, skipInitial: Bool, completed:@escaping () -> Void, id: String) {
-        print("\(timestamp()): vibrate(\(id))")
+        print("\(Log.timestamp()): vibrate(\(id))")
         guard numberOfVibrations > 0 else {
             completed()
             return
         }
         if(!skipInitial) {
-            print("\(timestamp()): <* \(id)>")
+            print("\(Log.timestamp()): <* \(id)>")
             AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        } else {
+            print("\(Log.timestamp()): <skipped \(id)>")
         }
         Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: false, block: { _ in
             self.vibrate(numberOfVibrations: numberOfVibrations-1, timeInterval:timeInterval, skipInitial: false, completed: completed, id: id)
         })
     }
 
-    func timestamp() -> String {
-        let date = Date()
-        let formatter = DateFormatter()
-        formatter.dateFormat = "hh:mm.ss.SSSS"
-        return formatter.string(from: date)
-    }
-    
-    
     
     
     func workBegin(_ timer: Timer) {
-        print("\(timestamp()): workBegin")
+        print("\(Log.timestamp()): workBegin")
         stepTimer = Timer.scheduledTimer(timeInterval: 10,
                                         target: self,
                                         selector: #selector(ViewController.restBegin(_:)),
@@ -199,8 +201,8 @@ class ViewController: UIViewController {
 
         if feedbackVibrate {
             vibrate(numberOfVibrations: 3, timeInterval: 0.5, skipInitial: false, completed: { () -> Void in
-                print("workBegin...completed")
-                self.vibrate(numberOfVibrations: 2, timeInterval: 2.0, skipInitial: true, completed: { _ in print("\(self.timestamp()): workBegin...completed...completed")}, id: "workBegin...completed");
+                print("\(Log.timestamp()): workBegin... completed")
+                self.vibrate(numberOfVibrations: 2, timeInterval: 2.0, skipInitial: true, completed: { _ in print("\(Log.timestamp()): working completed")}, id: "working");
             }, id: "workBegin")
         }
     }
@@ -208,7 +210,7 @@ class ViewController: UIViewController {
 
     
     func restBegin(_ timer: Timer) {
-        print("\(timestamp()): restBegin")
+        print("\(Log.timestamp()): restBegin")
         stepTimer = Timer.scheduledTimer(timeInterval: 15,
                                         target: self,
                                         selector: #selector(ViewController.workBegin(_:)),
@@ -224,8 +226,8 @@ class ViewController: UIViewController {
 
         if feedbackVibrate {
             vibrate(numberOfVibrations: 3, timeInterval: 0.5, skipInitial: false, completed: { () -> Void in
-                print("restBegin...completed")
-                self.vibrate(numberOfVibrations: 2, timeInterval: 3.0, skipInitial: true, completed: {_ in print("\(self.timestamp()): restBegin...completed...completed")}, id: "restBegin...completed")
+                print("\(Log.timestamp()): restBegin... completed")
+                self.vibrate(numberOfVibrations: 2, timeInterval: 3.0, skipInitial: true, completed: {_ in print("\(Log.timestamp()): resting... completed")}, id: "resting")
             }, id: "restBegin")
         }
     }
