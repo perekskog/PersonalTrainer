@@ -19,11 +19,13 @@ class TimeAnim {
         label = aLabel
         label.text = ""
     }
+    
     func setValue(newValue: Int) {
         print("\(Log.timestamp()): TimeAnim.setValue")
 
         value = newValue
     }
+    
     func start() {
         print("\(Log.timestamp()): TimeAnim.start")
 
@@ -35,16 +37,88 @@ class TimeAnim {
             self.label.text = String(self.value)
         })
     }
+    
     func stop() {
         print("\(Log.timestamp()): TimeAnim.stop")
         timer?.invalidate()
         self.label.text = ""
     }
+    
     func setVisibility(visible: Bool) {
         print("\(Log.timestamp()): TimeAnim.setVisibility")
         label.isHidden = !visible
     }
 }
+
+
+class VibrateAnim {
+    var timer: Timer?
+    var isRunning: Bool
+    var id: String
+    var numberOfVibrations: Int
+    var timeInterval: TimeInterval
+    var skipInitial: Bool
+//    var ()->Void: completed
+    
+    init() {
+        isRunning = false
+        id = "---"
+        numberOfVibrations = 0
+        timeInterval = TimeInterval()
+        skipInitial = false
+    }
+    
+    func start(numberOfVibrations: Int, timeInterval: TimeInterval, skipInitial: Bool, completed:@escaping () -> Void, id: String) {
+        print("\(Log.timestamp()): VibrateAnim.start \(id)")
+        
+        if let _ = timer {
+            timer?.invalidate()
+        }
+    
+        isRunning = true
+        self.numberOfVibrations = numberOfVibrations
+        self.timeInterval = timeInterval
+        self.skipInitial = skipInitial
+        self.id = id
+        vibrate(completed: completed)
+    }
+    
+    func stop() {
+        print("\(Log.timestamp()): VibrateAnim.stop \(id)")
+        timer?.invalidate()
+        isRunning = false
+    }
+    
+    func vibrate(completed:@escaping () -> Void) {
+        print("\(Log.timestamp()): VibrateAnim.vibrate(\(id))")
+        guard isRunning else {
+            print("\(Log.timestamp()): VibrateAnim is stopped, stopping vibrations \(id)")
+            return
+        }
+        guard numberOfVibrations > 0 else {
+            print("\(Log.timestamp()): VibrateAnim is done, finish with completed closure \(id)")
+            completed()
+            return
+        }
+        if(!skipInitial) {
+            print("\(Log.timestamp()): <* \(id)>")
+            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        } else {
+            print("\(Log.timestamp()): <skipped \(id)>")
+            skipInitial = false
+        }
+        numberOfVibrations = numberOfVibrations-1
+        timer = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: false, block: { _ in
+            self.vibrate(completed: completed)
+        })
+    }
+}
+
+
+
+
+
+
 
 
 class Log {
@@ -85,6 +159,7 @@ class ViewController: UIViewController {
     var stepTimer: Timer?
     
     var timeAnim: TimeAnim?
+    var vibrateAnim: VibrateAnim?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -94,6 +169,7 @@ class ViewController: UIViewController {
         mainView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(ViewController.toggleStartStop(_:))))
         
         timeAnim = TimeAnim(aLabel: timeLabel)
+        vibrateAnim = VibrateAnim()
     }
 
     override func didReceiveMemoryWarning() {
@@ -105,18 +181,12 @@ class ViewController: UIViewController {
     @IBAction func toggleStartStop(_ sender: UIButton) {
         print("\(Log.timestamp()): toggleStartStop")
 
-        if feedbackVibrate {
-            vibrate(numberOfVibrations: 1, timeInterval: 0, skipInitial: false, completed: {_ in
-                print("\(Log.timestamp()): toggleStartStop...completed")
-            }, id: "toggleStartStop")
-        }
-
         if let _ = stepTimer {
             stepTimer?.invalidate()
             stepTimer = nil
             timeAnim?.stop()
+            vibrateAnim?.stop()
             statusLabel.text = ""
-
             startStopView.image = UIImage(named: "play")
         } else {
             stepTimer = Timer.scheduledTimer(timeInterval: 0,
@@ -128,6 +198,13 @@ class ViewController: UIViewController {
             startStopView.image = UIImage(named: "stop")
             timeAnim?.start()
         }
+
+        if feedbackVibrate {
+            vibrateAnim?.start(numberOfVibrations: 1, timeInterval: 0, skipInitial: false, completed: {_ in
+                print("\(Log.timestamp()): toggleStartStop...completed")
+            }, id: "toggleStartStop")
+        }
+        
     }
     
     
@@ -167,24 +244,6 @@ class ViewController: UIViewController {
     
     
     
-    func vibrate(numberOfVibrations: Int, timeInterval: TimeInterval, skipInitial: Bool, completed:@escaping () -> Void, id: String) {
-        print("\(Log.timestamp()): vibrate(\(id))")
-        guard numberOfVibrations > 0 else {
-            completed()
-            return
-        }
-        if(!skipInitial) {
-            print("\(Log.timestamp()): <* \(id)>")
-            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-        } else {
-            print("\(Log.timestamp()): <skipped \(id)>")
-        }
-        Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: false, block: { _ in
-            self.vibrate(numberOfVibrations: numberOfVibrations-1, timeInterval:timeInterval, skipInitial: false, completed: completed, id: id)
-        })
-    }
-
-    
     
     func workBegin(_ timer: Timer) {
         print("\(Log.timestamp()): workBegin")
@@ -200,9 +259,9 @@ class ViewController: UIViewController {
         timeAnim?.setValue(newValue: 0)
 
         if feedbackVibrate {
-            vibrate(numberOfVibrations: 3, timeInterval: 0.5, skipInitial: false, completed: { () -> Void in
+            vibrateAnim?.start(numberOfVibrations: 3, timeInterval: 0.5, skipInitial: false, completed: { () -> Void in
                 print("\(Log.timestamp()): workBegin... completed")
-                self.vibrate(numberOfVibrations: 2, timeInterval: 2.0, skipInitial: true, completed: { _ in print("\(Log.timestamp()): working completed")}, id: "working");
+                self.vibrateAnim?.start(numberOfVibrations: 4, timeInterval: 2.0, skipInitial: true, completed: { _ in print("\(Log.timestamp()): working completed")}, id: "working");
             }, id: "workBegin")
         }
     }
@@ -225,9 +284,9 @@ class ViewController: UIViewController {
         timeAnim?.setValue(newValue: 0)
 
         if feedbackVibrate {
-            vibrate(numberOfVibrations: 3, timeInterval: 0.5, skipInitial: false, completed: { () -> Void in
+            vibrateAnim?.start(numberOfVibrations: 3, timeInterval: 0.5, skipInitial: false, completed: { () -> Void in
                 print("\(Log.timestamp()): restBegin... completed")
-                self.vibrate(numberOfVibrations: 2, timeInterval: 3.0, skipInitial: true, completed: {_ in print("\(Log.timestamp()): resting... completed")}, id: "resting")
+                self.vibrateAnim?.start(numberOfVibrations: 4, timeInterval: 3.0, skipInitial: true, completed: {_ in print("\(Log.timestamp()): resting... completed")}, id: "resting")
             }, id: "restBegin")
         }
     }
