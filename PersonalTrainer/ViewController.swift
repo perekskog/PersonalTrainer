@@ -9,6 +9,126 @@
 import UIKit
 import AudioToolbox
 
+
+class TimeAnim {
+    var timer: Timer?
+    var value: Int = 0
+    var label: UILabel
+
+    init(aLabel: UILabel) {
+        label = aLabel
+        label.text = ""
+    }
+    
+    func setValue(newValue: Int) {
+        print("\(Log.timestamp()): TimeAnim.setValue")
+
+        value = newValue
+    }
+    
+    func start() {
+        print("\(Log.timestamp()): TimeAnim.start")
+
+        if let _ = timer {
+            timer?.invalidate()
+        }
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in
+            self.value = self.value+1
+            self.label.text = String(self.value)
+        })
+    }
+    
+    func stop() {
+        print("\(Log.timestamp()): TimeAnim.stop")
+        timer?.invalidate()
+        self.label.text = ""
+    }
+    
+    func setVisibility(visible: Bool) {
+        print("\(Log.timestamp()): TimeAnim.setVisibility")
+        label.isHidden = !visible
+    }
+}
+
+
+class VibrateAnim {
+    var timer: Timer?
+    var isRunning: Bool
+    var id: String
+    var numberOfVibrations: Int
+    var timeInterval: TimeInterval
+    var skipInitial: Bool
+    var completed: ()->Void
+    
+    init() {
+        isRunning = false
+        id = "---"
+        numberOfVibrations = 0
+        timeInterval = TimeInterval()
+        skipInitial = false
+        completed = {}
+    }
+    
+    func start(numberOfVibrations: Int, timeInterval: TimeInterval, firstInterval: TimeInterval, completed:@escaping () -> Void, id: String) {
+        print("\(Log.timestamp()): VibrateAnim.start \(id)")
+        
+        if let _ = timer {
+            timer?.invalidate()
+        }
+    
+        isRunning = true
+        self.numberOfVibrations = numberOfVibrations
+        self.timeInterval = timeInterval
+        self.id = id
+        self.completed = completed
+        timer = Timer.scheduledTimer(withTimeInterval: firstInterval, repeats: false, block: { _ in self.vibrate() })
+    }
+    
+    func stop() {
+        print("\(Log.timestamp()): VibrateAnim.stop \(id)")
+        timer?.invalidate()
+        isRunning = false
+    }
+    
+    func vibrate() {
+        print("\(Log.timestamp()): VibrateAnim.vibrate(\(id))")
+        guard isRunning else {
+            print("\(Log.timestamp()): VibrateAnim is stopped, stopping vibrations \(id)")
+            return
+        }
+        guard numberOfVibrations > 0 else {
+            print("\(Log.timestamp()): VibrateAnim is done, finish with completed closure \(id)")
+            completed()
+            return
+        }
+        print("\(Log.timestamp()): <* \(id)>")
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+
+        numberOfVibrations = numberOfVibrations-1
+        timer = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: false, block: { _ in
+            self.vibrate()
+        })
+    }
+}
+
+
+
+
+
+
+
+
+class Log {
+    class func timestamp() -> String {
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "hh:mm.ss.SSSS"
+        return formatter.string(from: date)
+    }
+}
+
+
+
 class ViewController: UIViewController {
 
 
@@ -34,16 +154,19 @@ class ViewController: UIViewController {
     var feedbackTime: Bool = true
     
     var stepTimer: Timer?
-    var timeLabelTimer: Timer?
-    var timeLabelValue = 0
-
+    
+    var timeAnim: TimeAnim?
+    var vibrateAnim: VibrateAnim?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         statusLabel.text = ""
-        timeLabel.text = ""
         mainView.backgroundColor = UIColor(red: 0.3, green: 0.3, blue: 0.3, alpha: 1.0)
         mainView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(ViewController.toggleStartStop(_:))))
+        
+        timeAnim = TimeAnim(aLabel: timeLabel)
+        vibrateAnim = VibrateAnim()
     }
 
     override func didReceiveMemoryWarning() {
@@ -53,51 +176,49 @@ class ViewController: UIViewController {
     
 
     @IBAction func toggleStartStop(_ sender: UIButton) {
-        if feedbackVibrate {
-            vibrate(numberOfVibrations: 1, timeInterval: 0)
-        }
+        print("\(Log.timestamp()): toggleStartStop")
 
         if let _ = stepTimer {
             stepTimer?.invalidate()
             stepTimer = nil
-            timeLabelTimer?.invalidate()
+            timeAnim?.stop()
+            vibrateAnim?.stop()
             statusLabel.text = ""
-            timeLabel.text = ""
-
             startStopView.image = UIImage(named: "play")
         } else {
             stepTimer = Timer.scheduledTimer(timeInterval: 0,
                                              target: self,
-                                             selector: #selector(ViewController.restEnd(_:)),
+                                             selector: #selector(ViewController.workBegin(_:)),
                                              userInfo: nil,
                                              repeats: false)
             
             startStopView.image = UIImage(named: "stop")
+            timeAnim?.start()
         }
-    }
-    
-    
-    
-    
-    @IBAction func tapStartStop(_ sender: UITapGestureRecognizer) {
-        print("Start/stop")
-    }
-    
 
+        if feedbackVibrate {
+            vibrateAnim?.start(numberOfVibrations: 1, timeInterval: 0, firstInterval: 0.0, completed: {_ in
+                print("\(Log.timestamp()): toggleStartStop...completed")
+            }, id: "toggleStartStop")
+        }
+        
+    }
     
-    @IBAction func vibrateChange(_ sender: UISwitch) {
-        print("vibrateChange = \(sender.isOn)")
+    
+    
+    
+    @IBAction func vibrateToggle(_ sender: UISwitch) {
+        print("\(Log.timestamp()): vibrateToggle = \(sender.isOn)")
         feedbackVibrate = sender.isOn
     }
     
-    @IBAction func labelChange(_ sender: UISwitch) {
-        print("labelChange = \(sender.isOn)")
-        feedbackLabel = sender.isOn
-        statusLabel.isHidden = !feedbackLabel
+    @IBAction func timeToggle(_ sender: UISwitch) {
+        print("\(Log.timestamp()): timeToggle = \(sender.isOn)")
+        timeAnim?.setVisibility(visible: sender.isOn)
     }
     
-    @IBAction func colorChange(_ sender: UISwitch) {
-        print("colorChange = \(sender.isOn)")
+    @IBAction func colorToggle(_ sender: UISwitch) {
+        print("\(Log.timestamp()): colorToggle = \(sender.isOn)")
         feedbackColor = sender.isOn
         if !feedbackColor {
             mainView.backgroundColor = backgroundNeutralColor
@@ -110,14 +231,11 @@ class ViewController: UIViewController {
         }
     }
     
-    @IBAction func timeChange(_ sender: UISwitch) {
-        print("timeChange = \(sender.isOn)")
+    @IBAction func labelToggle(_ sender: UISwitch) {
+        print("\(Log.timestamp()): labelToggle = \(sender.isOn)")
         feedbackTime = sender.isOn
-        timeLabel.isHidden = !feedbackTime
+        statusLabel.isHidden = !feedbackTime
     }
-    
-    
-    
     
     
     
@@ -125,84 +243,33 @@ class ViewController: UIViewController {
     
     
     func workBegin(_ timer: Timer) {
-        print("workBegin")
+        print("\(Log.timestamp()): workBegin")
         stepTimer = Timer.scheduledTimer(timeInterval: 10,
                                         target: self,
-                                        selector: #selector(ViewController.work10(_:)),
+                                        selector: #selector(ViewController.restBegin(_:)),
                                         userInfo: nil,
                                         repeats: false)
         statusLabel.text = "Work"
         if feedbackColor {
             mainView.backgroundColor = workColor
         }
-        timeLabelValue = 0
-        timeLabel.text = "0"
-        timeLabelTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { _ in
-            self.timeLabelValue = self.timeLabelValue+1
-            self.timeLabel.text = String(self.timeLabelValue)
-        })
+        timeAnim?.setValue(newValue: 0)
 
         if feedbackVibrate {
-            vibrate(numberOfVibrations: 3, timeInterval: 0.5)
+            vibrateAnim?.start(numberOfVibrations: 3, timeInterval: 0.5, firstInterval: 0.0, completed: { () -> Void in
+                print("\(Log.timestamp()): workBegin... completed")
+                self.vibrateAnim?.start(numberOfVibrations: 100, timeInterval: 2.0, firstInterval: 2.0, completed: { _ in print("\(Log.timestamp()): working completed")}, id: "working");
+            }, id: "workBegin")
         }
     }
 
-    func work10(_ timer: Timer) {
-        print("work10")
-        stepTimer = Timer.scheduledTimer(timeInterval: 10,
-                                        target: self,
-                                        selector: #selector(ViewController.work20(_:)),
-                                        userInfo: nil,
-                                        repeats: false)
 
-        if feedbackVibrate {
-            vibrate(numberOfVibrations: 1, timeInterval: 0)
-        }
-    }
-    
-    func work20(_ timer: Timer) {
-        print("work20")
-        stepTimer = Timer.scheduledTimer(timeInterval: 10,
-                                        target: self,
-                                        selector: #selector(ViewController.work30(_:)),
-                                        userInfo: nil,
-                                        repeats: false)
-
-        if feedbackVibrate {
-            vibrate(numberOfVibrations: 2, timeInterval: 1.0)
-        }
-    }
-    
-    func work30(_ timer: Timer) {
-        print("work30")
-        stepTimer = Timer.scheduledTimer(timeInterval: 10,
-                                        target: self,
-                                        selector: #selector(ViewController.workEnd(_:)),
-                                        userInfo: nil,
-                                        repeats: false)
-        if feedbackVibrate {
-            vibrate(numberOfVibrations: 1, timeInterval: 0)
-        }
-    }
-    
-    func workEnd(_ timer: Timer) {
-        print("workEnd")
-        stepTimer = Timer.scheduledTimer(timeInterval: 1,
-                                        target: self,
-                                        selector: #selector(ViewController.restBegin(_:)),
-                                        userInfo: nil,
-                                        repeats: false)
-        timeLabelTimer?.invalidate()
-        if feedbackVibrate {
-            vibrate(numberOfVibrations: 1, timeInterval: 0)
-        }
-    }
     
     func restBegin(_ timer: Timer) {
-        print("restBegin")
+        print("\(Log.timestamp()): restBegin")
         stepTimer = Timer.scheduledTimer(timeInterval: 15,
                                         target: self,
-                                        selector: #selector(ViewController.restEnd(_:)),
+                                        selector: #selector(ViewController.workBegin(_:)),
                                         userInfo: nil,
                                         repeats: false)
         statusLabel.text = "Rest"
@@ -210,45 +277,17 @@ class ViewController: UIViewController {
         if feedbackColor {
             mainView.backgroundColor = restColor
         }
-        timeLabelValue = 0
-        timeLabel.text = "0"
-        timeLabelTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { _ in
-            self.timeLabelValue = self.timeLabelValue+1
-            self.timeLabel.text = String(self.timeLabelValue)
-        })
+        
+        timeAnim?.setValue(newValue: 0)
 
         if feedbackVibrate {
-            vibrate(numberOfVibrations: 3, timeInterval: 0.5)
-            Timer.scheduledTimer(withTimeInterval: 3, repeats: false, block: { _ in 
-                self.vibrate(numberOfVibrations: 4, timeInterval: 3.0)
-            })
+            vibrateAnim?.start(numberOfVibrations: 3, timeInterval: 0.5, firstInterval: 0.0, completed: { () -> Void in
+                print("\(Log.timestamp()): restBegin... completed")
+                self.vibrateAnim?.start(numberOfVibrations: 100, timeInterval: 3.0, firstInterval: 3.0, completed: {_ in print("\(Log.timestamp()): resting... completed")}, id: "resting")
+            }, id: "restBegin")
         }
     }
     
     
-    func restEnd(_ timer: Timer) {
-        print("restEnd")
-        stepTimer = Timer.scheduledTimer(timeInterval: 1,
-                                        target: self,
-                                        selector: #selector(ViewController.workBegin(_:)),
-                                        userInfo: nil,
-                                        repeats: false)
-
-        timeLabelTimer?.invalidate()
-        if feedbackVibrate {
-            vibrate(numberOfVibrations: 1, timeInterval: 0)
-        }
-    }
-    
-    func vibrate(numberOfVibrations: Int, timeInterval: TimeInterval) {
-        guard numberOfVibrations > 0 else {
-            return
-        }
-        print("<*>")
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-        Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: false, block: { _ in
-            self.vibrate(numberOfVibrations: numberOfVibrations-1, timeInterval:timeInterval)
-        })
-    }
 
 }
