@@ -258,7 +258,7 @@ class ViewController: UIViewController {
         if feedbackVibrate {
             vibrateAnim?.start(numberOfVibrations: 3, timeInterval: 0.5, firstInterval: 0.0, completed: { () -> Void in
                 print("\(Log.timestamp()): workBegin... completed")
-                self.vibrateAnim?.start(numberOfVibrations: 4, timeInterval: 2.0, firstInterval: 2.0, completed: { _ in print("\(Log.timestamp()): working completed")}, id: "working");
+                self.vibrateAnim?.start(numberOfVibrations: 100, timeInterval: 2.0, firstInterval: 2.0, completed: { _ in print("\(Log.timestamp()): working completed")}, id: "working");
             }, id: "workBegin")
         }
     }
@@ -283,7 +283,7 @@ class ViewController: UIViewController {
         if feedbackVibrate {
             vibrateAnim?.start(numberOfVibrations: 3, timeInterval: 0.5, firstInterval: 0.0, completed: { () -> Void in
                 print("\(Log.timestamp()): restBegin... completed")
-                self.vibrateAnim?.start(numberOfVibrations: 4, timeInterval: 3.0, firstInterval: 3.0, completed: {_ in print("\(Log.timestamp()): resting... completed")}, id: "resting")
+                self.vibrateAnim?.start(numberOfVibrations: 100, timeInterval: 3.0, firstInterval: 3.0, completed: {_ in print("\(Log.timestamp()): resting... completed")}, id: "resting")
             }, id: "restBegin")
         }
     }
