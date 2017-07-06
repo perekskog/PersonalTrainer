@@ -158,6 +158,9 @@ class ViewController: UIViewController {
     var timeAnim: TimeAnim?
     var vibrateAnim: VibrateAnim?
     
+    let workDuration = 5.0
+    let restDuration = 7.0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -244,7 +247,7 @@ class ViewController: UIViewController {
     
     func workBegin(_ timer: Timer) {
         print("\(Log.timestamp()): workBegin")
-        stepTimer = Timer.scheduledTimer(timeInterval: 10,
+        stepTimer = Timer.scheduledTimer(timeInterval: workDuration,
                                         target: self,
                                         selector: #selector(ViewController.restBegin(_:)),
                                         userInfo: nil,
@@ -267,7 +270,7 @@ class ViewController: UIViewController {
     
     func restBegin(_ timer: Timer) {
         print("\(Log.timestamp()): restBegin")
-        stepTimer = Timer.scheduledTimer(timeInterval: 15,
+        stepTimer = Timer.scheduledTimer(timeInterval: restDuration,
                                         target: self,
                                         selector: #selector(ViewController.workBegin(_:)),
                                         userInfo: nil,
