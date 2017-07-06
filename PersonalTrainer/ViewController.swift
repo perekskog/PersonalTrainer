@@ -58,7 +58,7 @@ class VibrateAnim {
     var numberOfVibrations: Int
     var timeInterval: TimeInterval
     var skipInitial: Bool
-//    var ()->Void: completed
+    var completed: ()->Void
     
     init() {
         isRunning = false
@@ -66,6 +66,7 @@ class VibrateAnim {
         numberOfVibrations = 0
         timeInterval = TimeInterval()
         skipInitial = false
+        completed = {}
     }
     
     func start(numberOfVibrations: Int, timeInterval: TimeInterval, skipInitial: Bool, completed:@escaping () -> Void, id: String) {
@@ -80,7 +81,8 @@ class VibrateAnim {
         self.timeInterval = timeInterval
         self.skipInitial = skipInitial
         self.id = id
-        vibrate(completed: completed)
+        self.completed = completed
+        vibrate()
     }
     
     func stop() {
@@ -89,7 +91,7 @@ class VibrateAnim {
         isRunning = false
     }
     
-    func vibrate(completed:@escaping () -> Void) {
+    func vibrate() {
         print("\(Log.timestamp()): VibrateAnim.vibrate(\(id))")
         guard isRunning else {
             print("\(Log.timestamp()): VibrateAnim is stopped, stopping vibrations \(id)")
@@ -109,7 +111,7 @@ class VibrateAnim {
         }
         numberOfVibrations = numberOfVibrations-1
         timer = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: false, block: { _ in
-            self.vibrate(completed: completed)
+            self.vibrate()
         })
     }
 }
