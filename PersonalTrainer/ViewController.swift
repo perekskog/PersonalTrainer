@@ -133,6 +133,7 @@ class ViewController: UIViewController {
 
 
     @IBOutlet var mainView: UIView!
+    @IBOutlet weak var configView: UIView!
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var startStopView: UIImageView!
@@ -167,7 +168,7 @@ class ViewController: UIViewController {
         statusLabel.text = ""
         mainView.backgroundColor = UIColor(red: 0.3, green: 0.3, blue: 0.3, alpha: 1.0)
         mainView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(ViewController.toggleStartStop(_:))))
-        
+        configView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(ViewController.nop(_:))))
         timeAnim = TimeAnim(aLabel: timeLabel)
         vibrateAnim = VibrateAnim()
     }
@@ -176,7 +177,9 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+
+    @IBAction func nop(_ sender: UIButton) {
+    }
 
     @IBAction func toggleStartStop(_ sender: UIButton) {
         print("\(Log.timestamp()): toggleStartStop")
